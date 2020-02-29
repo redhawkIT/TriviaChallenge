@@ -1,4 +1,4 @@
-![The G2i Logo](https://raw.githubusercontent.com/g2i/code-challenge-static-assets/master/g2i-web-150px.png "The G2i logo")
+![The G2i Logo](https://raw.githubusercontent.com/g2i/code-challenge-static-assets/master/g2i-web-150px.png 'The G2i logo')
 
 # Trivia Game Coding Challenge
 
@@ -58,14 +58,14 @@ Sample returned json:
 
 ### Intro / Home Screen:
 
-![The Intro screen for the app](https://raw.githubusercontent.com/g2i/code-challenge-static-assets/master/Intro.png "The intro screen for the app")
+![The Intro screen for the app](https://raw.githubusercontent.com/g2i/code-challenge-static-assets/master/Intro.png 'The intro screen for the app')
 
 - Static Text
 - BEGIN button navigates to the Quiz screen and starts the Quiz
 
 ### Quiz Screen:
 
-![The Quiz screen for the app](https://raw.githubusercontent.com/g2i/code-challenge-static-assets/master/Quiz.png "The quiz screen for the app")
+![The Quiz screen for the app](https://raw.githubusercontent.com/g2i/code-challenge-static-assets/master/Quiz.png 'The quiz screen for the app')
 
 - The headline is from question category
 - The card element contains the current question
@@ -74,7 +74,7 @@ Sample returned json:
 
 ### Results screen:
 
-![The Results screen for the app](https://raw.githubusercontent.com/g2i/code-challenge-static-assets/master/Score.png "The score screen for the app")
+![The Results screen for the app](https://raw.githubusercontent.com/g2i/code-challenge-static-assets/master/Score.png 'The score screen for the app')
 
 - The Score shows correct and total
 - Displays a list of the questions and whether the answer was correct or not
