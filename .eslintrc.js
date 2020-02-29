@@ -29,6 +29,7 @@ module.exports = {
     },
   },
   rules: {
+    'arrow-parens': OFF,
     'node/no-unsupported-features/es-syntax': OFF,
     'node/no-unpublished-require': OFF,
     'node/no-unpublished-import': OFF,
