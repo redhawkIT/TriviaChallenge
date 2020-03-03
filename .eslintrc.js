@@ -29,6 +29,7 @@ module.exports = {
     },
   },
   rules: {
+    'object-curly-newline': OFF,
     'arrow-parens': OFF,
     'node/no-unsupported-features/es-syntax': OFF,
     'node/no-unpublished-require': OFF,
