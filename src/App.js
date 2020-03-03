@@ -1,8 +1,8 @@
-import { Link, BrowserRouter as Router, Switch } from 'react-router-dom';
-import Container from '@material-ui/core/Container';
+import { BrowserRouter as Router, Switch } from 'react-router-dom';
 import React, { Suspense } from 'react';
 
 import CircularProgress from './components/CircularProgress';
+import Layout from './components/Layout/Layout';
 import PageNotFound from './components/PageNotFound';
 import Route from './components/Route';
 
@@ -14,26 +14,14 @@ import Route from './components/Route';
 const Home = React.lazy(() => import('./screens/Home'));
 const Quiz = React.lazy(() => import('./screens/Quiz'));
 const Result = React.lazy(() => import('./screens/Result'));
+const Categories = React.lazy(() => import('./screens/Categories'));
+const History = React.lazy(() => import('./screens/History'));
 
-export default function App() {
+function App() {
   return (
     <Suspense fallback={<CircularProgress />}>
       <Router>
-        <Container maxWidth="sm">
-          <ul>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/quiz">quiz</Link>
-            </li>
-            <li>
-              <Link to="/result">result</Link>
-            </li>
-          </ul>
-
-          <hr />
-
+        <Layout>
           {/*
           A <Switch> looks through all its children <Route>
           elements and renders the first one whose path
@@ -45,11 +33,20 @@ export default function App() {
             <Route exact path="/" title="Home">
               <Home />
             </Route>
+            <Route exact path="/home" title="Home">
+              <Home />
+            </Route>
             <Route path="/quiz" title="Quiz">
               <Quiz />
             </Route>
             <Route path="/result" title="Result">
               <Result />
+            </Route>
+            <Route path="/categories" title="Categories">
+              <Categories />
+            </Route>
+            <Route path="/history" title="History">
+              <History />
             </Route>
             <Route exact path="/404" title="Page Not Found">
               <PageNotFound />
@@ -57,10 +54,11 @@ export default function App() {
             <Route path="/*" title="Page Not Found">
               <PageNotFound />
             </Route>
-            <Route />
           </Switch>
-        </Container>
+        </Layout>
       </Router>
     </Suspense>
   );
 }
+
+export default App;

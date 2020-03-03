@@ -10,7 +10,7 @@ import App from './App';
 import ErrorBoundary from './components/ErrorBoundary';
 import theme from './theme';
 
-ReactDOM.render(
+const element = (
   <ErrorBoundary>
     <Provider store={store}>
       <ThemeProvider theme={theme}>
@@ -19,9 +19,12 @@ ReactDOM.render(
         <App />
       </ThemeProvider>
     </Provider>
-  </ErrorBoundary>,
-  document.querySelector('#root')
+  </ErrorBoundary>
 );
+
+const container = document.querySelector('#root');
+
+ReactDOM.render(element, container);
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
