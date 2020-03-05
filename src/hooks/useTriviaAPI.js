@@ -1,20 +1,12 @@
 // When making API request use the token
 // DOCS https://opentdb.com/api_config.php
 
-import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
 
+import * as trivaActions from '../redux/reducers/trivia';
 import useLocalStorage from './useLocalStorage';
 
-async function fetchAsync(url = '') {
-  const response = await fetch(url);
-  return response.json();
-}
-
-// Code 0: Success Returned results successfully.
-// Code 1: No Results Could not return results. The API doesn't have enough questions for your query. (Ex. Asking for 50 Questions in a Category that only has 20.)
-// Code 2: Invalid Parameter Contains an invalid parameter. Arguements passed in aren't valid. (Ex. Amount = Five)
-// Code 3: Token Not Found Session Token does not exist.
-// Code 4: Token Empty Session Token has returned all possible questions for the specified query. Resetting the Token is necessary.
 const codes = {
   sucess: 0,
   noResults: 1,
@@ -22,6 +14,11 @@ const codes = {
   noSessionFound: 3,
   noQuestionsLeft: 4,
 };
+
+async function fetchAsync(url = '') {
+  const response = await fetch(url);
+  return response.json();
+}
 
 /**
  * A opentdb API hook, simplifies the API
@@ -36,18 +33,16 @@ const codes = {
  * Reset token when user finished
  */
 function useTriviaAPI({ type = '', difficulty = '', amount = 1, category = '' }) {
+  const dispatch = useDispatch();
+  const trivia = useSelector(state => state.trivia);
+
   // Session Tokens will be deleted after 6 hours of inactivity.
   const [token, setToken] = useLocalStorage('__opentdbToken');
-  const [error, setError] = useState('');
-  const [results, setResults] = useState([]);
-  const [seenAll, setSeenAll] = useState(false);
 
   /**
    * Fetch query or token, don't setState if not mounted
    */
   useEffect(() => {
-    let mounted = true;
-
     /**
      * Query the opentdb API, using
      */
@@ -68,25 +63,13 @@ function useTriviaAPI({ type = '', difficulty = '', amount = 1, category = '' })
 
       try {
         const res = await fetchAsync(`https://opentdb.com/api.php?${query}`);
-        if (mounted) {
-          if (res.response_code === codes.sucess) {
-            setSeenAll(false);
-            setResults(res.results);
-          } else if (res.response_code === codes.noQuestionsLeft) {
-            setSeenAll(true);
-            setResults([]);
-          } else if ([codes.invalid, codes.noSessionFound].includes(res.response_code)) {
-            fetchToken();
-            setResults([]);
-            setSeenAll(false);
-          } else {
-            setResults([]);
-            setSeenAll(false);
-          }
+        dispatch(trivaActions.fetchQuerySucess(res));
+        if ([codes.invalid, codes.noSessionFound].includes(res.response_code)) {
+          fetchToken();
         }
       } catch (err) {
         console.error(err);
-        setError(err);
+        dispatch(trivaActions.fetchQueryFailure(err));
       }
     }
 
@@ -96,28 +79,35 @@ function useTriviaAPI({ type = '', difficulty = '', amount = 1, category = '' })
     async function fetchToken() {
       try {
         const res = await fetchAsync(`https://opentdb.com/api_token.php?command=request`);
-        if (mounted) {
-          setToken(res.token);
-        }
+        setToken(res.token);
       } catch (err) {
         console.error(err);
-        setError(err);
+        dispatch(trivaActions.fetchTokenFailure(err));
       }
     }
 
     // Check if there is a token in local storage
     if (token) {
-      fetchQuery();
+      // If a user changes screens we want to keep their orginal questions
+      if (!trivia.total) {
+        fetchQuery();
+      }
     } else {
       fetchToken();
     }
+  }, [
+    token,
+    amount,
+    category,
+    difficulty,
+    type,
+    setToken,
+    trivia.questions,
+    trivia.total,
+    dispatch,
+  ]);
 
-    return function onUnmount() {
-      mounted = false;
-    };
-  }, [token, amount, category, difficulty, type, setToken]);
-
-  return [results, seenAll, error];
+  return trivia;
 }
 
 export default useTriviaAPI;

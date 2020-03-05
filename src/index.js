@@ -5,9 +5,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import * as serviceWorker from './serviceWorker';
-import { store } from './redux';
 import App from './App';
 import ErrorBoundary from './components/ErrorBoundary';
+import store from './redux';
 import theme from './theme';
 
 const element = (

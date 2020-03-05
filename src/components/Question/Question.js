@@ -1,12 +1,12 @@
 import { makeStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-
+import { useSelector } from 'react-redux';
 import Button from '@material-ui/core/Button';
+import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Grid from '@material-ui/core/Grid';
 import PropTypes from 'prop-types';
-import React, { useCallback } from 'react';
+import React from 'react';
 import Skeleton from '@material-ui/lab/Skeleton';
 import Typography from '@material-ui/core/Typography';
 
@@ -46,12 +46,17 @@ function LoadingSkeleton() {
   );
 }
 
-function Question({ triva = {}, count = 0, total = 0, next, back }) {
-  const { question, category, type, correct_answer, incorrect_answers } = triva;
+function Question({ next, back }) {
+  const trivia = useSelector(state => state.trivia);
+  const quiz = useSelector(state => state.quiz);
 
-  if (!Object.keys(triva).length) {
+  if (!Object.keys(trivia).length || !trivia.questions.length) {
     return <LoadingSkeleton />;
   }
+
+  const count = quiz.index + 1;
+  const { question, category } = trivia.questions[quiz.index];
+  const noAnswer = !quiz.selectedAnswers[question];
 
   return (
     <Layout>
@@ -67,11 +72,7 @@ function Question({ triva = {}, count = 0, total = 0, next, back }) {
         <Typography color="textSecondary">{question}</Typography>
       </CardContent>
 
-      <QuestionSelection
-        correct_answer={correct_answer}
-        incorrect_answers={incorrect_answers}
-        type={type}
-      />
+      <QuestionSelection />
       <CardActions>
         {count !== 1 && (
           <Button onClick={back} size="small">
@@ -79,14 +80,14 @@ function Question({ triva = {}, count = 0, total = 0, next, back }) {
           </Button>
         )}
 
-        {count !== total && (
-          <Button onClick={next} size="small">
+        {count !== trivia.total && (
+          <Button disabled={noAnswer} onClick={next} size="small">
             Next
           </Button>
         )}
 
-        {count === total && (
-          <Button onClick={next} size="small">
+        {count === trivia.total && (
+          <Button disabled={noAnswer} onClick={next} size="small">
             Submit
           </Button>
         )}
@@ -96,12 +97,8 @@ function Question({ triva = {}, count = 0, total = 0, next, back }) {
 }
 
 Question.propTypes = {
-  // TODO: Add triva shape
-  triva: PropTypes.object,
-  count: PropTypes.number.isRequired,
   next: PropTypes.func.isRequired,
   back: PropTypes.func.isRequired,
-  total: PropTypes.number.isRequired,
 };
 
 export default Question;

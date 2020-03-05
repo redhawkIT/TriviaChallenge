@@ -29,6 +29,7 @@ module.exports = {
     },
   },
   rules: {
+    'implicit-arrow-linebreak': OFF,
     'object-curly-newline': OFF,
     'arrow-parens': OFF,
     'node/no-unsupported-features/es-syntax': OFF,

@@ -1,3 +1,3 @@
 import store from './reducers';
 
-export { store };
+export default store;

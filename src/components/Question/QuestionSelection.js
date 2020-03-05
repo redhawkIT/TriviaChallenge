@@ -1,11 +1,13 @@
 import { makeStyles } from '@material-ui/core/styles';
+import { useDispatch, useSelector } from 'react-redux';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormLabel from '@material-ui/core/FormLabel';
-import PropTypes from 'prop-types';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
+
+import * as quizActions from '../../redux/reducers/quiz';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -16,13 +18,27 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function QuestionSelection({ correct_answer = '', incorrect_answers = [], type = '' }) {
+function QuestionSelection() {
   const classes = useStyles();
-  const [checked, setChecked] = useState('');
+  const dispatch = useDispatch();
+  const trivia = useSelector(state => state.trivia);
+  const quiz = useSelector(state => state.quiz);
+  const { selectedAnswers } = useSelector(state => state.quiz);
 
+  const { type, correct_answer, incorrect_answers, question } = trivia.questions[quiz.index];
+  const selectedAnswer = selectedAnswers[question];
   const answers = incorrect_answers.concat(correct_answer);
 
-  const handleChange = useCallback(event => setChecked(event.target.value), []);
+  const handleChange = useCallback(
+    event =>
+      dispatch(
+        quizActions.selectAnswer({
+          question,
+          answer: event.target.value,
+        })
+      ),
+    [correct_answer, dispatch]
+  );
 
   if (type === 'multiple' || type === 'boolean') {
     return (
@@ -33,7 +49,11 @@ function QuestionSelection({ correct_answer = '', incorrect_answers = [], type =
             <FormControlLabel
               key={answer}
               control={
-                <Checkbox checked={checked === answer} onChange={handleChange} value={answer} />
+                <Checkbox
+                  checked={selectedAnswer === answer}
+                  onChange={handleChange}
+                  value={answer}
+                />
               }
               label={answer}
             />
@@ -46,11 +66,5 @@ function QuestionSelection({ correct_answer = '', incorrect_answers = [], type =
   console.error(`Unknown Type: ${type}`);
   return null;
 }
-
-QuestionSelection.propTypes = {
-  correct_answer: PropTypes.string.isRequired,
-  incorrect_answers: PropTypes.array.isRequired,
-  type: PropTypes.string.isRequired,
-};
 
 export default QuestionSelection;
