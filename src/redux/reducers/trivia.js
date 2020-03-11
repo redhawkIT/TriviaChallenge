@@ -13,20 +13,6 @@ const codes = {
   noQuestionsLeft: 4,
 };
 
-/**
- * Replace esacped html chars
- * @param {*} str
- * TODO: Handle &ouml;
- */
-function parse(str) {
-  str = str.replace(/&amp;/g, '&');
-  str = str.replace(/&gt;/g, '>');
-  str = str.replace(/&lt;/g, '<');
-  str = str.replace(/&quot;/g, '"');
-  str = str.replace(/&#039;/g, `'`);
-  return str;
-}
-
 const initialState = {
   categories: [],
   questions: [],
@@ -35,6 +21,13 @@ const initialState = {
   loading: true,
   error: '',
 };
+
+// https://stackoverflow.com/questions/1147359/how-to-decode-html-entities-using-jquery
+function decodeEntities(encodedString) {
+  const textArea = document.createElement('textarea');
+  textArea.innerHTML = encodedString;
+  return textArea.value;
+}
 
 // Automatically generates action creators and action types that correspond to the reducers and state.
 // createSlice wraps your function with produce from the Immer library.
@@ -50,9 +43,9 @@ const slice = createSlice({
         state.seenAll = false;
         state.loading = false;
         state.questions = action.payload.results.map(result => {
-          result.question = parse(result.question);
-          result.correct_answer = parse(result.correct_answer);
-          result.incorrect_answers = result.incorrect_answers.map(parse);
+          result.question = decodeEntities(result.question);
+          result.correct_answer = decodeEntities(result.correct_answer);
+          result.incorrect_answers = result.incorrect_answers.map(decodeEntities);
           return result;
         });
         state.total = action.payload.results.length;
