@@ -1,52 +1,16 @@
-import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import Button from '@material-ui/core/Button';
-import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import Grid from '@material-ui/core/Grid';
 import PropTypes from 'prop-types';
 import React, { useCallback } from 'react';
-import Skeleton from '@material-ui/lab/Skeleton';
 import Typography from '@material-ui/core/Typography';
 
 import * as hooks from '../../../hooks';
 import * as quizActions from '../../../redux/reducers/quiz';
+import Card from '../../../components/Card';
+import LoadingSkeleton from './LoadingSkeleton';
 import QuestionSelection from './QuestionSelection';
-
-const useStyles = makeStyles(() => ({
-  root: {
-    flexGrow: 1,
-  },
-}));
-
-// eslint-disable-next-line react/prop-types
-function Layout({ children }) {
-  const classes = useStyles();
-
-  return (
-    <Grid className={classes.root} container spacing={2}>
-      <Grid item xs={12}>
-        <Card className={classes.root}>{children}</Card>
-      </Grid>
-    </Grid>
-  );
-}
-
-function LoadingSkeleton() {
-  return (
-    <Layout>
-      <CardContent>
-        {Array(6)
-          .fill()
-          .map((e, index) => (
-            // eslint-disable-next-line react/no-array-index-key
-            <Skeleton key={index} animation="wave" height={60} />
-          ))}
-      </CardContent>
-    </Layout>
-  );
-}
 
 const getResultsText = ({ trivia = {}, quiz = {} }) => {
   const checkAnswer = q => quiz.selectedAnswers[q.question] === q.correct_answer;
@@ -73,7 +37,7 @@ function Question({ handleNext, handleBack, refetchQuestions }) {
   if (quiz.finished) {
     const resultText = getResultsText({ quiz, trivia });
     return (
-      <Layout>
+      <Card>
         <CardContent>
           <Typography color="textSecondary" gutterBottom>
             Quiz Completed
@@ -90,7 +54,7 @@ function Question({ handleNext, handleBack, refetchQuestions }) {
             View Results
           </Button>
         </CardActions>
-      </Layout>
+      </Card>
     );
   }
 
@@ -99,7 +63,7 @@ function Question({ handleNext, handleBack, refetchQuestions }) {
   const noAnswer = !quiz.selectedAnswers[question];
 
   return (
-    <Layout>
+    <Card>
       <CardContent>
         <Typography color="textSecondary" gutterBottom>
           {`Question #${count}`}
@@ -132,7 +96,7 @@ function Question({ handleNext, handleBack, refetchQuestions }) {
           </Button>
         )}
       </CardActions>
-    </Layout>
+    </Card>
   );
 }
 
