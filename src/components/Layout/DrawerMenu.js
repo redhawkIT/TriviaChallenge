@@ -1,4 +1,4 @@
-import { useHistory, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
 import CategoryIcon from '@material-ui/icons/Category';
 import HistoryIcon from '@material-ui/icons/History';
@@ -9,20 +9,20 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import PropTypes from 'prop-types';
-import React, { useCallback } from 'react';
+import React from 'react';
 import Tooltip from '@material-ui/core/Tooltip';
+
+import * as hooks from '../../hooks';
 
 // eslint-disable-next-line react/prop-types
 function Item({ primary = '', secondary = '', icon: Icon, open = false }) {
   const { pathname } = useLocation();
-  const history = useHistory();
+  const handleRoute = hooks.useHistoryHandler();
   const url = `/${primary.toLowerCase()}`;
-
-  const handleClick = useCallback(() => history.push(url), [url, history]);
 
   return (
     <Tooltip title={open ? '' : primary}>
-      <ListItem button onClick={handleClick} selected={pathname === url}>
+      <ListItem button onClick={handleRoute(url)} selected={pathname === url}>
         <ListItemIcon>
           <Icon />
         </ListItemIcon>

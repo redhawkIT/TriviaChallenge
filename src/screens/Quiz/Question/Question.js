@@ -1,6 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -11,6 +10,7 @@ import React, { useCallback } from 'react';
 import Skeleton from '@material-ui/lab/Skeleton';
 import Typography from '@material-ui/core/Typography';
 
+import * as hooks from '../../../hooks';
 import * as quizActions from '../../../redux/reducers/quiz';
 import QuestionSelection from './QuestionSelection';
 
@@ -48,9 +48,15 @@ function LoadingSkeleton() {
   );
 }
 
+const getResultsText = ({ trivia = {}, quiz = {} }) => {
+  const checkAnswer = q => quiz.selectedAnswers[q.question] === q.correct_answer;
+  const correctCount = trivia.questions.filter(checkAnswer).length;
+  return `${correctCount} of ${trivia.questions.length} correct`;
+};
+
 function Question({ handleNext, handleBack, refetchQuestions }) {
   const dispatch = useDispatch();
-  const history = useHistory();
+  const handleRoute = hooks.useHistoryHandler();
   const trivia = useSelector(state => state.trivia);
   const quiz = useSelector(state => state.quiz);
 
@@ -59,26 +65,28 @@ function Question({ handleNext, handleBack, refetchQuestions }) {
     dispatch(quizActions.reset());
     refetchQuestions();
   }, [dispatch, refetchQuestions]);
-  const handleViewResults = useCallback(() => history.push('/results'), [history]);
 
   if (trivia.loading) {
     return <LoadingSkeleton />;
   }
 
   if (quiz.finished) {
+    const resultText = getResultsText({ quiz, trivia });
     return (
       <Layout>
         <CardContent>
           <Typography color="textSecondary" gutterBottom>
             Quiz Completed
-            {/* Show score x out of y correct */}
+          </Typography>
+          <Typography color="textSecondary" gutterBottom>
+            {resultText}
           </Typography>
         </CardContent>
         <CardActions>
           <Button onClick={handleStartNewQuiz} size="small">
             New Quiz
           </Button>
-          <Button onClick={handleViewResults} size="small">
+          <Button onClick={handleRoute('/results')} size="small">
             View Results
           </Button>
         </CardActions>
