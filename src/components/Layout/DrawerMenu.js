@@ -39,7 +39,7 @@ function DrawerMenu({ open = false }) {
       <Item icon={AccessTimeIcon} open={open} primary="Quiz" />
       <Item icon={ListIcon} open={open} primary="Result" />
       <Item icon={CategoryIcon} open={open} primary="Categories" />
-      <Item icon={HistoryIcon} open={open} primary="History" />
+      <Item icon={HistoryIcon} open={open} primary="Statistics" />
     </List>
   );
 }

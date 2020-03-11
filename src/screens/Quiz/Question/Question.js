@@ -1,15 +1,17 @@
 import { makeStyles } from '@material-ui/core/styles';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Grid from '@material-ui/core/Grid';
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useCallback } from 'react';
 import Skeleton from '@material-ui/lab/Skeleton';
 import Typography from '@material-ui/core/Typography';
 
+import * as quizActions from '../../../redux/reducers/quiz';
 import QuestionSelection from './QuestionSelection';
 
 const useStyles = makeStyles(() => ({
@@ -46,12 +48,38 @@ function LoadingSkeleton() {
   );
 }
 
-function Question({ next, back }) {
+function Question({ handleNext, handleBack }) {
+  const dispatch = useDispatch();
+  const history = useHistory();
   const trivia = useSelector(state => state.trivia);
   const quiz = useSelector(state => state.quiz);
 
+  const handleSubmit = useCallback(() => dispatch(quizActions.submit()), [dispatch]);
+  const handleStartNewQuiz = useCallback(() => dispatch(quizActions.reset()), [dispatch]);
+  const handleViewResults = useCallback(() => history.push('/results'), [history]);
+
   if (!Object.keys(trivia).length || !trivia.questions.length) {
     return <LoadingSkeleton />;
+  }
+
+  if (quiz.finished) {
+    return (
+      <Layout>
+        <CardContent>
+          <Typography color="textSecondary" gutterBottom>
+            Quiz Completed
+          </Typography>
+        </CardContent>
+        <CardActions>
+          <Button onClick={handleStartNewQuiz} size="small">
+            New Quiz
+          </Button>
+          <Button onClick={handleViewResults} size="small">
+            View Results
+          </Button>
+        </CardActions>
+      </Layout>
+    );
   }
 
   const count = quiz.index + 1;
@@ -75,19 +103,19 @@ function Question({ next, back }) {
       <QuestionSelection />
       <CardActions>
         {count !== 1 && (
-          <Button onClick={back} size="small">
+          <Button onClick={handleBack} size="small">
             Back
           </Button>
         )}
 
         {count !== trivia.total && (
-          <Button disabled={noAnswer} onClick={next} size="small">
+          <Button disabled={noAnswer} onClick={handleNext} size="small">
             Next
           </Button>
         )}
 
         {count === trivia.total && (
-          <Button disabled={noAnswer} onClick={next} size="small">
+          <Button disabled={noAnswer} onClick={handleSubmit} size="small">
             Submit
           </Button>
         )}
@@ -97,8 +125,8 @@ function Question({ next, back }) {
 }
 
 Question.propTypes = {
-  next: PropTypes.func.isRequired,
-  back: PropTypes.func.isRequired,
+  handleNext: PropTypes.func.isRequired,
+  handleBack: PropTypes.func.isRequired,
 };
 
 export default Question;

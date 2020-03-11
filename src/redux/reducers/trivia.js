@@ -16,6 +16,7 @@ const codes = {
 /**
  * Replace esacped html chars
  * @param {*} str
+ * TODO: Handle &ouml;
  */
 function parse(str) {
   str = str.replace(/&amp;/g, '&');
@@ -26,17 +27,19 @@ function parse(str) {
   return str;
 }
 
+const initialState = {
+  categories: [],
+  questions: [],
+  total: 0,
+  seenAll: false,
+  error: '',
+};
+
 // Automatically generates action creators and action types that correspond to the reducers and state.
 // createSlice wraps your function with produce from the Immer library.
 const slice = createSlice({
   name: 'trivia',
-  initialState: {
-    categories: [],
-    questions: [],
-    total: 0,
-    seenAll: false,
-    error: '',
-  },
+  initialState,
   reducers: {
     fetchQuerySucess(state, action) {
       if (action.payload.response_code === codes.sucess) {

@@ -2,9 +2,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import React, { useCallback } from 'react';
 
-import * as hooks from '../hooks';
-import * as quizActions from '../redux/reducers/quiz';
-import Question from '../components/Question';
+import * as hooks from '../../hooks';
+import * as quizActions from '../../redux/reducers/quiz';
+import Question from './Question';
 
 function Quiz({ amount = 10 }) {
   const dispatch = useDispatch();
@@ -13,8 +13,9 @@ function Quiz({ amount = 10 }) {
 
   const count = quiz.index + 1;
 
-  const next = useCallback(() => dispatch(quizActions.next()), [dispatch]);
-  const back = useCallback(() => dispatch(quizActions.back()), [dispatch]);
+  // TODO: Make next back button on the left and right of the quiz
+  const handleNext = useCallback(() => dispatch(quizActions.next()), [dispatch]);
+  const handleBack = useCallback(() => dispatch(quizActions.back()), [dispatch]);
 
   if (trivia.error) {
     return <h1>Somthing went wrong...</h1>;
@@ -24,7 +25,7 @@ function Quiz({ amount = 10 }) {
     <React.Fragment>
       <h1>QUIZ</h1>
       <h3>{`Questions ${count} of ${trivia.total}`}</h3>
-      <Question back={back} next={next} />
+      <Question handleBack={handleBack} handleNext={handleNext} />
     </React.Fragment>
   );
 }

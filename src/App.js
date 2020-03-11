@@ -15,7 +15,7 @@ const Home = React.lazy(() => import('./screens/Home'));
 const Quiz = React.lazy(() => import('./screens/Quiz'));
 const Result = React.lazy(() => import('./screens/Result'));
 const Categories = React.lazy(() => import('./screens/Categories'));
-const History = React.lazy(() => import('./screens/History'));
+const Statistics = React.lazy(() => import('./screens/Statistics'));
 
 function App() {
   return (
@@ -45,8 +45,8 @@ function App() {
             <Route path="/categories" title="Categories">
               <Categories />
             </Route>
-            <Route path="/history" title="History">
-              <History />
+            <Route path="/statistics" title="Statistics">
+              <Statistics />
             </Route>
             <Route exact path="/404" title="Page Not Found">
               <PageNotFound />

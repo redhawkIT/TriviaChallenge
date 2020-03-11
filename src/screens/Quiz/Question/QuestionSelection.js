@@ -7,7 +7,7 @@ import FormGroup from '@material-ui/core/FormGroup';
 import FormLabel from '@material-ui/core/FormLabel';
 import React, { useCallback } from 'react';
 
-import * as quizActions from '../../redux/reducers/quiz';
+import * as quizActions from '../../../redux/reducers/quiz';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -37,7 +37,7 @@ function QuestionSelection() {
           answer: event.target.value,
         })
       ),
-    [correct_answer, dispatch]
+    [dispatch, question]
   );
 
   if (type === 'multiple' || type === 'boolean') {
