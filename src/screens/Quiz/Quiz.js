@@ -25,7 +25,11 @@ function Quiz({ amount = 10 }) {
     <React.Fragment>
       <h1>QUIZ</h1>
       <h3>{`Questions ${count} of ${trivia.total}`}</h3>
-      <Question handleBack={handleBack} handleNext={handleNext} />
+      <Question
+        handleBack={handleBack}
+        handleNext={handleNext}
+        refetchQuestions={trivia.refetchQuestions}
+      />
     </React.Fragment>
   );
 }

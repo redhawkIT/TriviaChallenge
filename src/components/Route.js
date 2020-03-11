@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import { BrowserRouter as Route } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
 

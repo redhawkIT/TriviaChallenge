@@ -32,6 +32,7 @@ const initialState = {
   questions: [],
   total: 0,
   seenAll: false,
+  loading: true,
   error: '',
 };
 
@@ -41,9 +42,13 @@ const slice = createSlice({
   name: 'trivia',
   initialState,
   reducers: {
+    fetchRequest(state) {
+      state.loading = true;
+    },
     fetchQuerySucess(state, action) {
       if (action.payload.response_code === codes.sucess) {
         state.seenAll = false;
+        state.loading = false;
         state.questions = action.payload.results.map(result => {
           result.question = parse(result.question);
           result.correct_answer = parse(result.correct_answer);
@@ -63,12 +68,15 @@ const slice = createSlice({
     },
     fetchQueryFailure(state, action) {
       state.error = action.payload;
+      state.loading = false;
     },
     fetchTokenSucess(state, action) {
       state.error = action.payload;
+      state.loading = false;
     },
     fetchTokenFailure(state, action) {
       state.error = action.payload;
+      state.loading = false;
     },
   },
 });
@@ -78,6 +86,7 @@ export const {
   fetchQueryFailure,
   fetchTokenSucess,
   fetchTokenFailure,
+  fetchRequest,
 } = slice.actions;
 
 export default slice.reducer;

@@ -48,17 +48,20 @@ function LoadingSkeleton() {
   );
 }
 
-function Question({ handleNext, handleBack }) {
+function Question({ handleNext, handleBack, refetchQuestions }) {
   const dispatch = useDispatch();
   const history = useHistory();
   const trivia = useSelector(state => state.trivia);
   const quiz = useSelector(state => state.quiz);
 
   const handleSubmit = useCallback(() => dispatch(quizActions.submit()), [dispatch]);
-  const handleStartNewQuiz = useCallback(() => dispatch(quizActions.reset()), [dispatch]);
+  const handleStartNewQuiz = useCallback(() => {
+    dispatch(quizActions.reset());
+    refetchQuestions();
+  }, [dispatch, refetchQuestions]);
   const handleViewResults = useCallback(() => history.push('/results'), [history]);
 
-  if (!Object.keys(trivia).length || !trivia.questions.length) {
+  if (trivia.loading) {
     return <LoadingSkeleton />;
   }
 
@@ -68,6 +71,7 @@ function Question({ handleNext, handleBack }) {
         <CardContent>
           <Typography color="textSecondary" gutterBottom>
             Quiz Completed
+            {/* Show score x out of y correct */}
           </Typography>
         </CardContent>
         <CardActions>
@@ -127,6 +131,7 @@ function Question({ handleNext, handleBack }) {
 Question.propTypes = {
   handleNext: PropTypes.func.isRequired,
   handleBack: PropTypes.func.isRequired,
+  refetchQuestions: PropTypes.func.isRequired,
 };
 
 export default Question;

@@ -11,7 +11,7 @@ import Route from './components/Route';
  * A component created using React.lazy() only gets loaded when it needs to be rendered.
  * https://reactjs.org/docs/code-splitting.html
  */
-const Home = React.lazy(() => import('./screens/Home'));
+const Home = React.lazy(() => import('./screens/home'));
 const Quiz = React.lazy(() => import('./screens/Quiz'));
 const Result = React.lazy(() => import('./screens/Result'));
 const Categories = React.lazy(() => import('./screens/Categories'));
@@ -22,24 +22,20 @@ function App() {
     <Suspense fallback={<CircularProgress />}>
       <Router>
         <Layout>
-          {/*
-          A <Switch> looks through all its children <Route>
-          elements and renders the first one whose path
-          matches the current URL. Use a <Switch> any time
-          you have multiple routes, but you want only one
-          of them to render at a time
-        */}
+          {/* A <Switch> looks through all its children <Route>
+            elements and renders the first one whose path
+            matches the current URL. Use a <Switch> any time
+            you have multiple routes, but you want only one
+            of them to render at a time
+         */}
           <Switch>
-            <Route exact path="/" title="Home">
-              <Home />
-            </Route>
             <Route exact path="/home" title="Home">
               <Home />
             </Route>
             <Route path="/quiz" title="Quiz">
               <Quiz />
             </Route>
-            <Route path="/result" title="Result">
+            <Route path="/results" title="Results">
               <Result />
             </Route>
             <Route path="/categories" title="Categories">
@@ -53,6 +49,9 @@ function App() {
             </Route>
             <Route path="/*" title="Page Not Found">
               <PageNotFound />
+            </Route>
+            <Route exact path="/" title="Home">
+              <Home />
             </Route>
           </Switch>
         </Layout>
