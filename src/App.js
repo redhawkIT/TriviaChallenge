@@ -14,7 +14,6 @@ import Route from './components/Route';
 const Home = React.lazy(() => import('./screens/home'));
 const Quiz = React.lazy(() => import('./screens/Quiz'));
 const Result = React.lazy(() => import('./screens/Result'));
-const Categories = React.lazy(() => import('./screens/Categories'));
 const Statistics = React.lazy(() => import('./screens/Statistics'));
 
 function App() {
@@ -37,9 +36,6 @@ function App() {
             </Route>
             <Route path="/results" title="Results">
               <Result />
-            </Route>
-            <Route path="/categories" title="Categories">
-              <Categories />
             </Route>
             <Route path="/statistics" title="Statistics">
               <Statistics />

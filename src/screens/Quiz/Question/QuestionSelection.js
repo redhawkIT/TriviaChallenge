@@ -34,9 +34,12 @@ function QuestionSelection() {
         })
       );
 
-      setTimeout(() => {
-        dispatch(quizActions.next());
-      }, 250);
+      // Last quiz would submit, prevent out of index
+      if (trivia.questions.length - 1 !== quiz.index) {
+        setTimeout(() => {
+          dispatch(quizActions.next());
+        }, 250);
+      }
     },
     [dispatch, question]
   );

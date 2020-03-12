@@ -1,6 +1,5 @@
 import { useLocation } from 'react-router-dom';
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
-import CategoryIcon from '@material-ui/icons/Category';
 import HistoryIcon from '@material-ui/icons/History';
 import HomeIcon from '@material-ui/icons/Home';
 import List from '@material-ui/core/List';
@@ -38,7 +37,6 @@ function DrawerMenu({ open = false }) {
       <Item icon={HomeIcon} open={open} primary="Home" />
       <Item icon={AccessTimeIcon} open={open} primary="Quiz" />
       <Item icon={ListIcon} open={open} primary="Results" />
-      <Item icon={CategoryIcon} open={open} primary="Categories" />
       <Item icon={HistoryIcon} open={open} primary="Statistics" />
     </List>
   );
