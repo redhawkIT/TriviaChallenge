@@ -1,6 +1,8 @@
 import { BrowserRouter as Router, Switch } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import React, { Suspense } from 'react';
 
+import * as hooks from './hooks';
 import CircularProgress from './components/CircularProgress';
 import Layout from './components/Layout/Layout';
 import PageNotFound from './components/PageNotFound';
@@ -17,6 +19,9 @@ const Result = React.lazy(() => import('./screens/Result'));
 const Statistics = React.lazy(() => import('./screens/Statistics'));
 
 function App() {
+  const quiz = useSelector(state => state.quiz);
+  hooks.useTriviaAPI(quiz.options);
+
   return (
     <Suspense fallback={<CircularProgress />}>
       <Router>

@@ -41,7 +41,7 @@ function QuestionSelection() {
         }, 250);
       }
     },
-    [dispatch, question]
+    [dispatch, question, quiz.index, trivia.questions.length]
   );
 
   return (

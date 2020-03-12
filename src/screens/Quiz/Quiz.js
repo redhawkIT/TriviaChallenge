@@ -2,14 +2,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import React, { useCallback } from 'react';
 import Typography from '@material-ui/core/Typography';
 
-import * as hooks from '../../hooks';
 import * as quizActions from '../../redux/reducers/quiz';
 import Question from './Question';
 
 function Quiz() {
   const dispatch = useDispatch();
   const quiz = useSelector(state => state.quiz);
-  const trivia = hooks.useTriviaAPI(quiz.options);
+  const trivia = useSelector(state => state.trivia);
 
   const count = quiz.index + 1;
 
