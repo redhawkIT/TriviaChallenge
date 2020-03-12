@@ -1,3 +1,4 @@
+import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import CardActions from '@material-ui/core/CardActions';
@@ -11,7 +12,14 @@ import * as quizActions from '../../../redux/reducers/quiz';
 import * as utils from '../../../utils';
 import Card from '../../../components/Card';
 
+const useStyles = makeStyles(() => ({
+  actions: {
+    float: 'right',
+  },
+}));
+
 function QuestionsFinished({ refetchQuestions }) {
+  const classes = useStyles();
   const dispatch = useDispatch();
   const handleRoute = hooks.useHistoryHandler();
   const trivia = useSelector(state => state.trivia);
@@ -33,7 +41,7 @@ function QuestionsFinished({ refetchQuestions }) {
           {resultText}
         </Typography>
       </CardContent>
-      <CardActions>
+      <CardActions className={classes.actions}>
         <Button onClick={handleStartNewQuiz} size="small">
           New Quiz
         </Button>

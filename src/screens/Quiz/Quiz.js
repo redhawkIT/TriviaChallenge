@@ -1,5 +1,4 @@
 import { useDispatch, useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
 import React, { useCallback } from 'react';
 import Typography from '@material-ui/core/Typography';
 
@@ -7,10 +6,10 @@ import * as hooks from '../../hooks';
 import * as quizActions from '../../redux/reducers/quiz';
 import Question from './Question';
 
-function Quiz({ amount = 1 }) {
+function Quiz() {
   const dispatch = useDispatch();
-  const trivia = hooks.useTriviaAPI({ amount });
   const quiz = useSelector(state => state.quiz);
+  const trivia = hooks.useTriviaAPI(quiz.options);
 
   const count = quiz.index + 1;
 
@@ -40,9 +39,5 @@ function Quiz({ amount = 1 }) {
     </React.Fragment>
   );
 }
-
-Quiz.propTypes = {
-  amount: PropTypes.number,
-};
 
 export default Quiz;

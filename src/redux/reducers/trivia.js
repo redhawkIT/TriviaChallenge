@@ -14,7 +14,9 @@ const codes = {
 };
 
 const initialState = {
-  categories: [],
+  categories: [
+    /* {name: '', value: '' } */
+  ],
   questions: [],
   total: 0,
   seenAll: false,
@@ -38,6 +40,9 @@ const slice = createSlice({
     fetchRequest(state) {
       state.loading = true;
     },
+    fetchCategoriesSucess(state, action) {
+      state.categories = action.payload.map(item => ({ name: item.name, value: String(item.id) }));
+    },
     fetchQuerySucess(state, action) {
       if (action.payload.response_code === codes.sucess) {
         state.seenAll = false;
@@ -59,15 +64,11 @@ const slice = createSlice({
         state.total = 0;
       }
     },
-    fetchQueryFailure(state, action) {
-      state.error = action.payload;
+    fetchTokenSucess(state) {
+      state.error = '';
       state.loading = false;
     },
-    fetchTokenSucess(state, action) {
-      state.error = action.payload;
-      state.loading = false;
-    },
-    fetchTokenFailure(state, action) {
+    fetchFailure(state, action) {
       state.error = action.payload;
       state.loading = false;
     },
@@ -76,10 +77,10 @@ const slice = createSlice({
 
 export const {
   fetchQuerySucess,
-  fetchQueryFailure,
   fetchTokenSucess,
-  fetchTokenFailure,
+  fetchFailure,
   fetchRequest,
+  fetchCategoriesSucess,
 } = slice.actions;
 
 export default slice.reducer;

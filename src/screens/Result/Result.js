@@ -26,7 +26,7 @@ function Results() {
   return (
     <React.Fragment>
       <Typography gutterBottom variant="h4">
-        RESULTS
+        Results
       </Typography>
 
       <Typography gutterBottom variant="h5">

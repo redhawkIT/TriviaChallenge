@@ -26,13 +26,18 @@ function QuestionSelection() {
   const answers = incorrect_answers.concat(correct_answer);
 
   const handleChange = useCallback(
-    event =>
+    event => {
       dispatch(
         quizActions.selectAnswer({
           question,
           answer: event.target.value,
         })
-      ),
+      );
+
+      setTimeout(() => {
+        dispatch(quizActions.next());
+      }, 250);
+    },
     [dispatch, question]
   );
 

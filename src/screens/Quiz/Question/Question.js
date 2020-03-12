@@ -4,7 +4,7 @@ import Button from '@material-ui/core/Button';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import PropTypes from 'prop-types';
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import Typography from '@material-ui/core/Typography';
 
 import * as quizActions from '../../../redux/reducers/quiz';
@@ -12,6 +12,7 @@ import Card from '../../../components/Card';
 import LoadingSkeleton from './LoadingSkeleton';
 import QuestionSelection from './QuestionSelection';
 import QuestionsFinished from './QuestionsFinished';
+import QuizOptions from './QuizOptions';
 
 const useStyles = makeStyles(() => ({
   actions: {
@@ -19,13 +20,38 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
+const deriveData = ({ trivia = {}, quiz = {} }) => {
+  let question = '';
+  let category = '';
+  let noAnswer = true;
+
+  if (trivia.questions && trivia.questions.length) {
+    const triviaItem = trivia.questions[quiz.index];
+    question = triviaItem.question;
+    noAnswer = !quiz.selectedAnswers[question];
+    category = triviaItem.category;
+  }
+
+  return {
+    question,
+    category,
+    noAnswer,
+  };
+};
+
 function Question({ handleNext, handleBack, refetchQuestions }) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const trivia = useSelector(state => state.trivia);
   const quiz = useSelector(state => state.quiz);
+  const { question, category, noAnswer } = useMemo(() => deriveData({ trivia, quiz }), [
+    trivia,
+    quiz,
+  ]);
 
   const handleSubmit = useCallback(() => dispatch(quizActions.submit()), [dispatch]);
+
+  const count = quiz.index + 1;
 
   if (trivia.loading) {
     return <LoadingSkeleton />;
@@ -35,13 +61,11 @@ function Question({ handleNext, handleBack, refetchQuestions }) {
     return <QuestionsFinished refetchQuestions={refetchQuestions} />;
   }
 
-  const count = quiz.index + 1;
-  const { question, category } = trivia.questions[quiz.index];
-  const noAnswer = !quiz.selectedAnswers[question];
-
   return (
     <Card>
       <CardContent>
+        <QuizOptions />
+
         <Typography color="textSecondary" gutterBottom>
           {`Question #${count}`}
         </Typography>

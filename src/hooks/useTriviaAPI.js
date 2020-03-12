@@ -12,7 +12,7 @@ const codes = {
   noResults: 1,
   invalid: 2,
   noSessionFound: 3,
-  noQuestionsLeft: 4,
+  noQuestionsLeft: 4, // Handle this case
 };
 
 async function fetchAsync(url = '') {
@@ -45,9 +45,22 @@ function useTriviaAPI({ type = '', difficulty = '', amount = 1, category = '' })
       setToken(res.token);
     } catch (err) {
       console.error(err);
-      dispatch(trivaActions.fetchTokenFailure(err));
+      dispatch(trivaActions.fetchFailure(err));
     }
   }, [dispatch, setToken]);
+
+  /**
+   * Fetch categories
+   */
+  const fetchCategories = useCallback(async () => {
+    try {
+      const res = await fetchAsync(`https://opentdb.com/api_category.php`);
+      dispatch(trivaActions.fetchCategoriesSucess(res.trivia_categories));
+    } catch (err) {
+      console.error(err);
+      dispatch(trivaActions.fetchFailure(err));
+    }
+  }, [dispatch]);
 
   /**
    * Query the opentdb API
@@ -77,9 +90,14 @@ function useTriviaAPI({ type = '', difficulty = '', amount = 1, category = '' })
       }
     } catch (err) {
       console.error(err);
-      dispatch(trivaActions.fetchQueryFailure(err));
+      dispatch(trivaActions.fetchFailure(err));
     }
   }, [amount, category, difficulty, dispatch, fetchToken, token, type]);
+
+  /**
+   * fetch categories on mount
+   */
+  useEffect(() => void fetchCategories(), [fetchCategories]);
 
   /**
    * Fetch query or token, don't setState if not mounted
@@ -87,14 +105,11 @@ function useTriviaAPI({ type = '', difficulty = '', amount = 1, category = '' })
   useEffect(() => {
     // Check if there is a token in local storage
     if (token) {
-      // If a user changes screens we want to keep their orginal questions
-      if (!trivia.total) {
-        fetchQuery();
-      }
+      fetchQuery();
     } else {
       fetchToken();
     }
-  }, [token, trivia.total, fetchQuery, fetchToken]);
+  }, [token, trivia.total, fetchQuery, fetchToken, fetchCategories, amount]);
 
   return {
     ...trivia,

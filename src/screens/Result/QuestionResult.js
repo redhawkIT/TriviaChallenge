@@ -8,6 +8,8 @@ import FormGroup from '@material-ui/core/FormGroup';
 import PropTypes from 'prop-types';
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
+import green from '@material-ui/core/colors/green';
+import red from '@material-ui/core/colors/red';
 
 import Card from '../../components/Card';
 
@@ -17,11 +19,24 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+const useLabelStyles = makeStyles(() => ({
+  correct: {
+    color: green[800],
+    fontWeight: 600,
+  },
+  incorrect: {
+    color: red[800],
+    fontWeight: 600,
+  },
+}));
+
 // eslint-disable-next-line react/prop-types
 const Label = ({ answer, correct_answer, userAnswer }) => {
+  const classes = useLabelStyles();
+
   if (correct_answer === answer) {
     return (
-      <Typography color="textPrimary" style={{ color: 'green' }}>
+      <Typography className={classes.correct} color="textPrimary">
         {answer}
       </Typography>
     );
@@ -29,7 +44,7 @@ const Label = ({ answer, correct_answer, userAnswer }) => {
 
   if (userAnswer === answer) {
     return (
-      <Typography color="textPrimary" style={{ color: 'red' }}>
+      <Typography className={classes.incorrect} color="textPrimary">
         {answer}
       </Typography>
     );

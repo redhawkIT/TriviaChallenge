@@ -6,6 +6,12 @@ const initialState = {
     // [question]: answer
   },
   finished: false,
+  options: {
+    amount: 10,
+    category: '',
+    difficulty: '',
+    type: '',
+  },
 };
 
 // Automatically generates action creators and action types that correspond to the reducers and state.
@@ -26,12 +32,15 @@ const slice = createSlice({
     submit(state) {
       state.finished = true;
     },
+    setOptions(state, action) {
+      state.options = action.payload;
+    },
     reset() {
       return initialState;
     },
   },
 });
 
-export const { next, back, selectAnswer, submit, reset } = slice.actions;
+export const { next, back, selectAnswer, submit, reset, setOptions } = slice.actions;
 
 export default slice.reducer;
