@@ -7,7 +7,7 @@ import PageNotFound from './components/PageNotFound';
 import Route from './components/Route';
 
 /**
- * Route-based code-splitting
+ * Route-based code-splitting, I would of used something like next.js but this project was already set up with CRA
  * A component created using React.lazy() only gets loaded when it needs to be rendered.
  * https://reactjs.org/docs/code-splitting.html
  */
