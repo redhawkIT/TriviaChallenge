@@ -2,7 +2,10 @@
   "name": "g2i-code-challenge-web-template",
   "version": "0.1.0",
   "private": true,
+  "homepage": "http://ChrisWiles.github.io/TriviaChallenge",
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -40,6 +43,7 @@
     "eslint-plugin-react": "7.18.3",
     "eslint-plugin-react-hooks": "2.5.0",
     "eslint-plugin-sort-imports-es6-autofix": "0.5.0",
+    "gh-pages": "^2.2.0",
     "prettier": "1.19.1"
   },
   "browserslist": [
