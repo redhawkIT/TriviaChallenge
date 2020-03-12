@@ -17,7 +17,7 @@ import * as hooks from '../../hooks';
 function Item({ primary = '', secondary = '', icon: Icon, open = false }) {
   const { pathname } = useLocation();
   const handleRoute = hooks.useHistoryHandler();
-  const url = `/${primary.toLowerCase()}`;
+  const url = `/TriviaChallenge/${primary.toLowerCase()}`;
 
   return (
     <Tooltip title={open ? '' : primary}>

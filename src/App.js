@@ -33,19 +33,22 @@ function App() {
             of them to render at a time
          */}
           <Switch>
-            <Route exact path="/home" title="Home">
+            <Route exact path="/TriviaChallenge" title="Home">
               <Home />
             </Route>
-            <Route path="/quiz" title="Quiz">
+            <Route exact path="/TriviaChallenge/home" title="Home">
+              <Home />
+            </Route>
+            <Route path="/TriviaChallenge/quiz" title="Quiz">
               <Quiz />
             </Route>
-            <Route path="/results" title="Results">
+            <Route path="/TriviaChallenge/results" title="Results">
               <Result />
             </Route>
-            <Route path="/statistics" title="Statistics">
+            <Route path="/TriviaChallenge/statistics" title="Statistics">
               <Statistics />
             </Route>
-            <Route exact path="/404" title="Page Not Found">
+            <Route exact path="/TriviaChallenge/404" title="Page Not Found">
               <PageNotFound />
             </Route>
             <Route path="/*" title="Page Not Found">
