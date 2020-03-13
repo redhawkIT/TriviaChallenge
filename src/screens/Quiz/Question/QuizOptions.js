@@ -4,8 +4,8 @@ import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import React, { useCallback, useEffect, useState } from 'react';
@@ -90,50 +90,59 @@ function QuizOptions() {
       <Dialog onClose={handleClose} open={open}>
         <DialogTitle>Quiz Options</DialogTitle>
         <DialogContent>
-          <DialogContentText>Create a new quiz</DialogContentText>
-          <TextField
-            autoFocus
-            fullWidth
-            label="Number of Questions"
-            onChange={handleAmountChange}
-            type="number"
-            value={options.amount}
-            variant="outlined"
-          />
-          <SelectOption
-            handleSelect={handleSelect('category')}
-            helperText=""
-            label="Select Category"
-            menuItems={categories}
-            name="category"
-            setOptions={setOptions}
-            value={options.category}
-          />
-          <SelectOption
-            handleSelect={handleSelect('difficulty')}
-            helperText=""
-            label="Select Difficulty"
-            menuItems={menuItems.difficulty}
-            name="difficulty"
-            setOptions={setOptions}
-            value={options.difficulty}
-          />
-          <SelectOption
-            handleSelect={handleSelect('type')}
-            helperText=""
-            label="Select Type"
-            menuItems={menuItems.type}
-            name="type"
-            setOptions={setOptions}
-            value={options.type}
-          />
+          <Grid container justify="center" spacing={3}>
+            <Grid item lg={6} xs={12}>
+              <TextField
+                autoFocus
+                fullWidth
+                label="Number of Questions"
+                onChange={handleAmountChange}
+                type="number"
+                value={options.amount}
+                variant="outlined"
+              />
+            </Grid>
+            <Grid item lg={6} xs={12}>
+              <SelectOption
+                handleSelect={handleSelect('category')}
+                helperText=""
+                label="Select Category"
+                menuItems={categories}
+                name="category"
+                setOptions={setOptions}
+                value={options.category}
+              />
+            </Grid>
+            <Grid item lg={6} xs={12}>
+              <SelectOption
+                handleSelect={handleSelect('difficulty')}
+                helperText=""
+                label="Select Difficulty"
+                menuItems={menuItems.difficulty}
+                name="difficulty"
+                setOptions={setOptions}
+                value={options.difficulty}
+              />
+            </Grid>
+            <Grid item lg={6} xs={12}>
+              <SelectOption
+                handleSelect={handleSelect('type')}
+                helperText=""
+                label="Select Type"
+                menuItems={menuItems.type}
+                name="type"
+                setOptions={setOptions}
+                value={options.type}
+              />
+            </Grid>
+          </Grid>
         </DialogContent>
         <DialogActions>
           <Button color="primary" onClick={handleClose}>
             Cancel
           </Button>
           <Button color="primary" onClick={handleSave}>
-            Save
+            Start new quiz
           </Button>
         </DialogActions>
       </Dialog>

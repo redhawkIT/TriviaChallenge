@@ -66,7 +66,7 @@ function QuestionResult({ index = 0 }) {
     <Card spacing={4}>
       <CardContent>
         <Typography color="textSecondary" gutterBottom>
-          {`Question #${index + 1}`}
+          {`Question #${index + 1} (${userAnswer === correct_answer ? 'Correct' : 'Wrong'})`}
         </Typography>
 
         <Typography color="textSecondary" gutterBottom>

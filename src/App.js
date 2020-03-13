@@ -16,11 +16,11 @@ import Route from './components/Route';
 const Home = React.lazy(() => import('./screens/home'));
 const Quiz = React.lazy(() => import('./screens/Quiz'));
 const Result = React.lazy(() => import('./screens/Result'));
-const Statistics = React.lazy(() => import('./screens/Statistics'));
+// const Statistics = React.lazy(() => import('./screens/Statistics'));
 
 function App() {
   const quiz = useSelector(state => state.quiz);
-  hooks.useTriviaAPI(quiz.options);
+  const { fetchNewQuestions } = hooks.useTriviaAPI(quiz.options);
 
   return (
     <Suspense fallback={<CircularProgress />}>
@@ -43,11 +43,11 @@ function App() {
               <Quiz />
             </Route>
             <Route path="/TriviaChallenge/results" title="Results">
-              <Result />
+              <Result fetchNewQuestions={fetchNewQuestions} />
             </Route>
-            <Route path="/TriviaChallenge/statistics" title="Statistics">
+            {/* <Route path="/TriviaChallenge/statistics" title="Statistics">
               <Statistics />
-            </Route>
+            </Route> */}
             <Route exact path="/TriviaChallenge/404" title="Page Not Found">
               <PageNotFound />
             </Route>

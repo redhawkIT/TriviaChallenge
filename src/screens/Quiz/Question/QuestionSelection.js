@@ -11,7 +11,7 @@ import * as quizActions from '../../../redux/reducers/quiz';
 
 const useStyles = makeStyles(theme => ({
   formControl: {
-    margin: theme.spacing(3),
+    marginTop: theme.spacing(3),
   },
 }));
 

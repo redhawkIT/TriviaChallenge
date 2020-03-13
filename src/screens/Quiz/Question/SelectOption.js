@@ -1,4 +1,3 @@
-import { makeStyles } from '@material-ui/core/styles';
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -6,13 +5,6 @@ import MenuItem from '@material-ui/core/MenuItem';
 import PropTypes from 'prop-types';
 import React, { useEffect, useRef, useState } from 'react';
 import Select from '@material-ui/core/Select';
-
-const useStyles = makeStyles(theme => ({
-  formControl: {
-    // margin: theme.spacing(1),
-    // minWidth: 120,
-  },
-}));
 
 function SelectOption({
   label = '',
@@ -22,7 +14,6 @@ function SelectOption({
   handleSelect,
   value = '',
 }) {
-  const classes = useStyles();
   const inputLabel = useRef(null);
   const [labelWidth, setLabelWidth] = useState(0);
 
@@ -34,7 +25,7 @@ function SelectOption({
   }, []);
 
   return (
-    <FormControl className={classes.formControl} fullWidth variant="outlined">
+    <FormControl fullWidth variant="outlined">
       <InputLabel ref={inputLabel}>{label}</InputLabel>
       <Select labelWidth={labelWidth} onChange={handleSelect} value={value}>
         <MenuItem value="">

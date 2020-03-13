@@ -1,3 +1,4 @@
+import { Redirect } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import Button from '@material-ui/core/Button';
@@ -11,7 +12,6 @@ import * as quizActions from '../../../redux/reducers/quiz';
 import Card from '../../../components/Card';
 import LoadingSkeleton from './LoadingSkeleton';
 import QuestionSelection from './QuestionSelection';
-import QuestionsFinished from './QuestionsFinished';
 import QuizOptions from './QuizOptions';
 
 const useStyles = makeStyles(() => ({
@@ -39,9 +39,9 @@ const deriveData = ({ trivia = {}, quiz = {} }) => {
   };
 };
 
-function Question({ handleNext, handleBack, refetchQuestions }) {
-  const classes = useStyles();
+function Question({ handleNext, handleBack }) {
   const dispatch = useDispatch();
+  const classes = useStyles();
   const trivia = useSelector(state => state.trivia);
   const quiz = useSelector(state => state.quiz);
   const { question, category, noAnswer } = useMemo(() => deriveData({ trivia, quiz }), [
@@ -52,13 +52,16 @@ function Question({ handleNext, handleBack, refetchQuestions }) {
   const handleSubmit = useCallback(() => dispatch(quizActions.submit()), [dispatch]);
 
   const count = quiz.index + 1;
+  const notFirstQuestion = count !== 1;
+  const notLastQuestion = count !== trivia.total;
+  const isLastQuestion = count === trivia.total;
 
   if (trivia.loading) {
     return <LoadingSkeleton />;
   }
 
   if (quiz.finished) {
-    return <QuestionsFinished refetchQuestions={refetchQuestions} />;
+    return <Redirect to="/TriviaChallenge/results" />;
   }
 
   return (
@@ -80,19 +83,19 @@ function Question({ handleNext, handleBack, refetchQuestions }) {
       </CardContent>
 
       <CardActions className={classes.actions}>
-        {count !== 1 && (
+        {notFirstQuestion && (
           <Button onClick={handleBack} size="small">
             Back
           </Button>
         )}
 
-        {count !== trivia.total && (
+        {notLastQuestion && (
           <Button disabled={noAnswer} onClick={handleNext} size="small">
             Next
           </Button>
         )}
 
-        {count === trivia.total && (
+        {isLastQuestion && (
           <Button disabled={noAnswer} onClick={handleSubmit} size="small">
             Submit
           </Button>
@@ -105,7 +108,6 @@ function Question({ handleNext, handleBack, refetchQuestions }) {
 Question.propTypes = {
   handleNext: PropTypes.func.isRequired,
   handleBack: PropTypes.func.isRequired,
-  refetchQuestions: PropTypes.func.isRequired,
 };
 
 export default Question;

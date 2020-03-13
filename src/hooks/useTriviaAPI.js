@@ -113,7 +113,7 @@ function useTriviaAPI({ type = '', difficulty = '', amount = 1, category = '' })
 
   return {
     ...trivia,
-    refetchQuestions: fetchQuery,
+    fetchNewQuestions: fetchQuery,
   };
 }
 

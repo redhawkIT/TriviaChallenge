@@ -1,6 +1,6 @@
 import { useLocation } from 'react-router-dom';
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
-import HistoryIcon from '@material-ui/icons/History';
+// import HistoryIcon from '@material-ui/icons/History';
 import HomeIcon from '@material-ui/icons/Home';
 import List from '@material-ui/core/List';
 import ListIcon from '@material-ui/icons/List';
@@ -17,7 +17,7 @@ import * as hooks from '../../hooks';
 function Item({ primary = '', secondary = '', icon: Icon, open = false }) {
   const { pathname } = useLocation();
   const handleRoute = hooks.useHistoryHandler();
-  const url = `/TriviaChallenge/${primary.toLowerCase()}`;
+  const url = `/${primary.toLowerCase()}`;
 
   return (
     <Tooltip title={open ? '' : primary}>
@@ -37,7 +37,7 @@ function DrawerMenu({ open = false }) {
       <Item icon={HomeIcon} open={open} primary="Home" />
       <Item icon={AccessTimeIcon} open={open} primary="Quiz" />
       <Item icon={ListIcon} open={open} primary="Results" />
-      <Item icon={HistoryIcon} open={open} primary="Statistics" />
+      {/* <Item icon={HistoryIcon} open={open} primary="Statistics" /> */}
     </List>
   );
 }

@@ -30,11 +30,7 @@ function Quiz() {
         {`Question ${count} of ${trivia.total}`}
       </Typography>
 
-      <Question
-        handleBack={handleBack}
-        handleNext={handleNext}
-        refetchQuestions={trivia.refetchQuestions}
-      />
+      <Question handleBack={handleBack} handleNext={handleNext} />
     </React.Fragment>
   );
 }

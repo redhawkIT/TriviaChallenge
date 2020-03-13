@@ -14,14 +14,20 @@ function Home() {
       </Typography>
 
       <Typography gutterBottom variant="h5">
-        You will be presented with 10 True or False questions.
+        You will be presented with 10 questions.
       </Typography>
 
       <Typography gutterBottom variant="h5">
         Can you score 100%?
       </Typography>
 
-      <Button color="primary" onClick={handleRoute('/quiz')} variant="contained">
+      <Button
+        color="primary"
+        fullWidth
+        onClick={handleRoute('/quiz')}
+        size="large"
+        variant="outlined"
+      >
         BEGIN
       </Button>
     </React.Fragment>
