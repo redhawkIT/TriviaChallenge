@@ -87,7 +87,7 @@ function QuizOptions() {
           <MoreVertIcon />
         </IconButton>
       </Tooltip>
-      <Dialog onClose={handleClose} open={open}>
+      <Dialog fullWidth maxWidth="sm" onClose={handleClose} open={open}>
         <DialogTitle>Quiz Options</DialogTitle>
         <DialogContent>
           <Grid container justify="center" spacing={3}>

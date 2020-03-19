@@ -1,12 +1,9 @@
+import { Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
 
-import * as hooks from '../hooks';
-
 function Home() {
-  const handleRoute = hooks.useHistoryHandler();
-
   return (
     <React.Fragment>
       <Typography gutterBottom variant="h4">
@@ -23,9 +20,10 @@ function Home() {
 
       <Button
         color="primary"
+        component={Link}
         fullWidth
-        onClick={handleRoute('/quiz')}
         size="large"
+        to="/TriviaChallenge/quiz"
         variant="outlined"
       >
         BEGIN
