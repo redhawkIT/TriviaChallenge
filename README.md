@@ -1,3 +1,17 @@
+# Trivia Challenge 
+
+## Technical Breakdown
+
+- Modern responsive single page React web app built with hooks and the lastest javascript features
+- [react-router](https://reacttraining.com/react-router/) provides the SPA with routes, links, and history
+- Route based code-splitting using React Suspense and Lazy loading
+- [reduxjs/toolkit](https://github.com/reduxjs/redux-toolkit) provides all the bells and whistles of the redux ecosystems without the hassle
+- State that needs to be preserved across routes is stored in redux
+- [material-ui](https://material-ui.com/) for faster and easier web components - Well tested and supports IE-11 and accessibility support
+- Save [opentdb](https://opentdb.com/) tokens to local storage to manage user sessions, allowing a user to come back and refresh the page and not get the same questions
+- Free hosting and one step deployments via [GitHub pages](https://pages.github.com/) 
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
