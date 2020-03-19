@@ -5,7 +5,7 @@ import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormLabel from '@material-ui/core/FormLabel';
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 
 import * as quizActions from '../../../redux/reducers/quiz';
 
@@ -20,6 +20,7 @@ function QuestionSelection() {
   const dispatch = useDispatch();
   const trivia = useSelector(state => state.trivia);
   const quiz = useSelector(state => state.quiz);
+  const [disabled, setDisabled] = useState(false);
 
   const { correct_answer, incorrect_answers, question } = trivia.questions[quiz.index];
   const selectedAnswer = quiz.selectedAnswers[question];
@@ -27,21 +28,28 @@ function QuestionSelection() {
 
   const handleChange = useCallback(
     event => {
-      dispatch(
-        quizActions.selectAnswer({
-          question,
-          answer: event.target.value,
-        })
-      );
+      // Prevent double clicks, since quizActions.next is async
+      if (!disabled) {
+        setDisabled(true);
+        dispatch(
+          quizActions.selectAnswer({
+            question,
+            answer: event.target.value,
+          })
+        );
 
-      // Last quiz would submit, prevent out of index
-      if (trivia.questions.length - 1 !== quiz.index) {
-        setTimeout(() => {
-          dispatch(quizActions.next());
-        }, 250);
+        // Last quiz would submit, prevent out of index
+        if (trivia.questions.length - 1 !== quiz.index) {
+          setTimeout(() => {
+            setDisabled(false);
+            dispatch(quizActions.next());
+          }, 250);
+        } else {
+          setDisabled(false);
+        }
       }
     },
-    [dispatch, question, quiz.index, trivia.questions.length]
+    [dispatch, question, quiz.index, trivia.questions.length, disabled]
   );
 
   return (
