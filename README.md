@@ -12,6 +12,13 @@
 - Free hosting and one step deployments via [GitHub pages](https://pages.github.com/) 
 
 
+## Features
+
+- Responsive from desktop to mobile
+- Handles user session, so questions are not repeated
+- Change the number of questions, categories, difficulty, and type
+- Review the quiz results 
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
