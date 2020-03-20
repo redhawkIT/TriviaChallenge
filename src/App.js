@@ -51,11 +51,11 @@ function App() {
             <Route exact path="/TriviaChallenge/404" title="Page Not Found">
               <PageNotFound />
             </Route>
-            <Route path="/*" title="Page Not Found">
-              <PageNotFound />
-            </Route>
             <Route exact path="/" title="Home">
               <Home />
+            </Route>
+            <Route path="/*" title="Page Not Found">
+              <PageNotFound />
             </Route>
           </Switch>
         </Layout>
