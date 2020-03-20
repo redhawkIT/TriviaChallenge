@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import styled from 'styled-components';
 
-const StyledCircularProgress = styled(CircularProgress)`
-  height: 100%;
+const Container = styled.div`
+  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -16,7 +16,11 @@ const StyledCircularProgress = styled(CircularProgress)`
  * https://material-ui.com/api/circular-progress/#circularprogress-api
  */
 function CircularProgressWrapper({ size = 180, thickness = 3.6 }) {
-  return <StyledCircularProgress size={size} thickness={thickness} />;
+  return (
+    <Container>
+      <CircularProgress size={size} thickness={thickness} />
+    </Container>
+  );
 }
 
 CircularProgressWrapper.propTypes = {
